@@ -12,7 +12,7 @@ const { response, request } = require('express')
 const express = require('express')
 const app = express()
 
-app.use(express.json())
+
 
 let notes = [
     {
@@ -34,6 +34,18 @@ let notes = [
         important: true
     }
 ]
+
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
+
+app.use(express.json())
+
+app.use(requestLogger)
 
 /* Fetching a single resource */
 app.get('/api/notes/:id', (request, response) => {
@@ -93,6 +105,14 @@ app.get('/', (request, response) => {
 app.get('/api/notes', (request, response) => {
     response.json(notes)
 })
+
+/* middleware (catch request made to non-existent routes) */
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+/*  */
 
 const PORT = 3001
 app.listen(PORT, () => {
