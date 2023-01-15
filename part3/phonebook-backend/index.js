@@ -69,10 +69,11 @@ app.delete('/api/persons/:id', (request, response) => {
 
 /* Generating id */
 const generateId = () => {
-    const maxId = persons.length > 0
+    return Math.floor(Math.random() * (9999999999999 - 1 + 1)) + 1
+/*     const maxId = persons.length > 0
         ? Math.max(...persons.map(n => n.id))
         : 0
-    return maxId + 1
+    return maxId + 1 */
 }
 
 /* Receiving data (aka post)*/
