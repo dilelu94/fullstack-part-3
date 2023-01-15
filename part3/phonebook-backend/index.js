@@ -27,15 +27,14 @@ let persons = [
     }
 ]
 
-/* Fetching a single resource */
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
+/* home page */
+app.get('/', (request, response) => {
+    response.send('<h1>Hello World!</h1>')
+})
+
+/* persons string page */
+app.get('/api/persons', (request, response) => {
+    response.json(persons)
 })
 
 /* /info */ /* el navegador te formatea la fecha gratis XDD */
@@ -49,14 +48,23 @@ app.get('/info', (request, response) => {
     )
 })
 
-/* home page */
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
+/* Fetching a single resource */
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(person => person.id === id)
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
 })
 
-/* persons string page */
-app.get('/api/persons', (request, response) => {
-    response.json(persons)
+/* Deleting resources */
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(n => n.id !== id)
+
+    response.status(204).end()
 })
 
 const PORT = 3001
