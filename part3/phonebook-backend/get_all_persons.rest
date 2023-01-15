@@ -1,6 +1,12 @@
 GET http://localhost:3001/api/persons/
 
 ###
+GET http://localhost:3001/api/persons/1
+
+###
+GET http://localhost:3001/api/persons/10000
+
+###
 POST http://localhost:3001/api/persons/
 content-type: application/json
 

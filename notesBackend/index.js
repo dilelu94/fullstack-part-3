@@ -84,10 +84,12 @@ app.post('/api/notes', (request, response) => {
     response.json(note)
 })
 
+/* home page */
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
 
+/* string page */
 app.get('/api/notes', (request, response) => {
     response.json(notes)
 })
