@@ -19,6 +19,17 @@ content-type: application/json
 }
 
 ###
+PUT http://localhost:3001/api/persons/
+content-type: application/json
+
+{
+    id: 1,
+    content: "HTML is easy",
+    date: "2022-05-30T17:30:31.098Z",
+    important: true
+}
+
+###
 POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
