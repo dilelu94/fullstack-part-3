@@ -27,6 +27,10 @@ let persons = [
     }
 ]
 
+/* morgan middleware */
+const morgan = require('morgan')
+app.use(morgan('tiny'))
+
 /* home page */
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
