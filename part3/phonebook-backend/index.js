@@ -29,7 +29,8 @@ let persons = [
 
 /* morgan middleware */
 const morgan = require('morgan')
-app.use(morgan('tiny'))
+morgan.token('body', function (req, res) { return JSON.stringify(req.body) });
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', { stream: process.stdout }))
 
 /* home page */
 app.get('/', (request, response) => {
@@ -113,7 +114,7 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
-/*  */ 
+/*  */
 
 
 const PORT = 3001
