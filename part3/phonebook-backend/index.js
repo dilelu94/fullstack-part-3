@@ -38,6 +38,17 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
+/* /info */ /* el navegador te formatea la fecha gratis XDD */
+app.get('/info', (request, response) => {
+    const phonebookEntries = persons.length
+    const date = new Date()
+    console.log(date)
+    response.send(
+        `<p>Phonebook has info for ${phonebookEntries} people</p>
+        <p>${date}</p>`
+    )
+})
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
