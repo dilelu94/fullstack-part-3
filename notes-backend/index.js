@@ -38,7 +38,7 @@ app.use(cors())
 
 app.use(express.static('build'))
 
-/* Fetching a single resource */
+/* Mongoose Fetching a single resource */
 app.get('/api/notes/:id', (request, response) => {
     Note.findById(request.params.id, (err, note) => {
         if (err) return response.status(404).json({
@@ -88,7 +88,7 @@ const generateId = () => {
     return maxId + 1
 } */
 
-/* Receiving data */
+/* Mongoose Receiving data */
 app.post('/api/notes', (request, response) => {
     const body = request.body
 
@@ -114,7 +114,7 @@ app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
 
-/* string page */
+/* Mongoose string page */
 app.get('/api/notes', (request, response) => {
     Note.find({}).then(notes => {
         response.json(notes)
