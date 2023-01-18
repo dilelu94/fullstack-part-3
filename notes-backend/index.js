@@ -16,15 +16,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
+const Note = require('./models/note')
 /* mongoose start */
 const mongoose = require('mongoose')
 
-if (process.argv.length < 3) {
-    console.log('Please provide the password as an argument: node mongo.js <password>')
-    process.exit(1)
-}
-
-const password = process.argv[2]
 
 const url = `mongodb+srv://fullstackluque:${password}@cluster0.q58hehj.mongodb.net/noteApp?retryWrites=true&w=majority`
 
@@ -34,6 +29,14 @@ const noteSchema = new mongoose.Schema({
     content: String,
     date: Date,
     important: Boolean,
+})
+
+noteSchema.set('toJSON', { //deletes __v and transform id from object to string
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 const Note = mongoose.model('Note', noteSchema)
