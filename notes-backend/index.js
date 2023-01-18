@@ -16,30 +16,32 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
+/* mongoose start */
+const mongoose = require('mongoose')
+
+if (process.argv.length < 3) {
+    console.log('Please provide the password as an argument: node mongo.js <password>')
+    process.exit(1)
+}
+
+const password = process.argv[2]
+
+const url = `mongodb+srv://fullstackluque:${password}@cluster0.q58hehj.mongodb.net/noteApp?retryWrites=true&w=majority`
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+    content: String,
+    date: Date,
+    important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+/* mongoose end */
+
 app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
-
-let notes = [
-    {
-        id: 1,
-        content: "HTML is easy",
-        date: "2022-05-30T17:30:31.098Z",
-        important: true
-    },
-    {
-        id: 2,
-        content: "Browser can execute only Javascript",
-        date: "2022-05-30T18:39:34.091Z",
-        important: false
-    },
-    {
-        id: 3,
-        content: "GET and POST are the most important methods of HTTP protocol",
-        date: "2022-05-30T19:20:14.298Z",
-        important: true
-    }
-]
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -131,7 +133,9 @@ app.get('/', (request, response) => {
 
 /* string page */
 app.get('/api/notes', (request, response) => {
-    response.json(notes)
+    Note.find({}).then(notes => {
+        response.json(notes)
+    })
 })
 
 /* middleware (catch request made to non-existent routes) */
