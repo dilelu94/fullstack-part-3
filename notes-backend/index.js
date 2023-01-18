@@ -8,7 +8,6 @@
 /* Fly.io */
 /* fly auth login */
 
-
 /* { name: 'John', age: 30 } object */
 /* {"name":"John","age":30} json, string */
 
@@ -57,7 +56,6 @@ app.use(requestLogger)
 app.use(cors())
 
 app.use(express.static('build'))
-
 
 /* Fetching a single resource */
 app.get('/api/notes/:id', (request, response) => {
