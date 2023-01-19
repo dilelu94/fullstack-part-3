@@ -52,15 +52,15 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
-/* /info */ /* el navegador te formatea la fecha gratis XDD */
+/* Mongoose /info */ /* el navegador te formatea la fecha gratis XDD */
 app.get('/info', (request, response) => {
-    const phonebookEntries = persons.length
-    const date = new Date()
-    console.log(date)
-    response.send(
-        `<p>Phonebook has info for ${phonebookEntries} people</p>
-        <p>${date}</p>`
-    )
+    Person.countDocuments({}).then(phonebookEntries => {
+        const date = new Date()
+        response.send(
+            `<p>Phonebook has info for ${phonebookEntries} people</p>
+            <p>${date}</p>`
+        )
+    })
 })
 
 /* Mongoose Deleting resources */
@@ -75,8 +75,8 @@ app.delete('/api/persons/:id', (request, response) => {
 /* Mongoose Fetching a single resource */
 app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
-        if (note) {
-            response.json(note)
+        if (person) {
+            response.json(person)
         } else {
             response.status(404).end()
         }
