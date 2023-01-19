@@ -1,4 +1,4 @@
-const { response, request } = require('express')
+/* const { response, request } = require('express') */
 require('dotenv').config()
 const express = require('express')
 const app = express()
@@ -54,15 +54,11 @@ app.get('/info', (request, response) => {
     )
 })
 
-/* Fetching a single resource */
+/* Mongoose Fetching a single resource */
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
+    Person.findById(request.params.id).then(person => {
         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    })
 })
 
 /* Deleting resources */
@@ -98,7 +94,7 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    const person = new Person( {
+    const person = new Person({
         name: body.name,
         number: body.number,
     })

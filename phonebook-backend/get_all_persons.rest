@@ -7,14 +7,14 @@ GET http://localhost:3001/api/persons/1
 GET http://localhost:3001/api/persons/10000
 
 ###
-DELETE http://localhost:3001/api/persons/
+DELETE http://localhost:3001/api/persons/1
 
 ###
 POST http://localhost:3001/api/persons/
 content-type: application/json
 
 {
-    "name": "Test01",
+    "name": "Test03",
     "number": "1111111111"
 }
 
@@ -23,10 +23,8 @@ PUT http://localhost:3001/api/persons/
 content-type: application/json
 
 {
-    id: 1,
-    content: "HTML is easy",
-    date: "2022-05-30T17:30:31.098Z",
-    important: false
+    "name": "Test01",
+    "number": "1111111111"
 }
 
 ###
