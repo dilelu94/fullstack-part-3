@@ -66,12 +66,13 @@ app.get('/api/notes', (request, response) => {
     })
 })
 
-/* Deleting resources */
-app.delete('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    notes = notes.filter(n => n.id !== id)
-
-    response.status(204).end()
+/* Mongoose Deleting resources */
+app.delete('/api/notes/:id', (request, response, next) => {
+    Note.findByIdAndRemove(request.params.id)
+        .then(result => {
+            response.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 /* Mongoose Fetching a single resource */
@@ -89,28 +90,21 @@ app.get('/api/notes/:id', (request, response, next) => {
         })
 })
 
-/* update (aka put)*/
-app.put('/api/notes/:id', (request, response) => {
-    const id = request.params.id
-    const updatedNote = request.body
+/* Mongoose update (aka put)*/
+app.put('/api/notes/:id', (request, response, next) => {
+    const body = request.body
 
-    Note.findByIdAndUpdate(id, updatedNote, { new: true }, (err, note) => {
-        if (err) {
-            return response.status(404).json({
-                error: 'Note not found'
-            })
-        }
-        response.json(note)
-    })
+    const note = {
+        content: body.content,
+        important: body.important,
+    }
+
+    Note.findByIdAndUpdate(request.params.id, note, { new: true })
+        .then(updatedNote => {
+            response.json(updatedNote)
+        })
+        .catch(error => next(error))
 })
-
-/* deprecated
-const generateId = () => {
-    const maxId = notes.length > 0
-        ? Math.max(...notes.map(n => n.id))
-        : 0
-    return maxId + 1
-} */
 
 /* middleware (catch request made to non-existent routes) */
 const unknownEndpoint = (request, response) => {
