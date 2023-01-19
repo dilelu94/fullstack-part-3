@@ -35,11 +35,11 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-/*     if (persons.some(p => p.name === body.name)) { //esto quizas no ande xd
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    } */
+    /*     if (persons.some(p => p.name === body.name)) { //esto quizas no ande xd
+            return response.status(400).json({
+                error: 'name must be unique'
+            })
+        } */
 
     const person = new Person({
         name: body.name,
@@ -79,11 +79,19 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 /* Mongoose Fetching a single resource */
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
-        response.json(person)
+        if (note) {
+            response.json(note)
+        } else {
+            response.status(404).end()
+        }
     })
+        .catch(error => {
+            next(error)
+        })
 })
+
 
 /* middleware (catch request made to savedPerson-existent routes) */
 const unknownEndpoint = (request, response) => {
