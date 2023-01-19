@@ -1,28 +1,10 @@
 const { response, request } = require('express')
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
 
-/* mongoose */
-const mongoose = require('mongoose')
-
-if (process.argv.length < 3) {
-    console.log('Please provide the password as an argument: node mongo.js <password>')
-    process.exit(1)
-}
-const password = process.argv[2]
-const url = `mongodb+srv://fullstackluque:${password}@cluster0.q58hehj.mongodb.net/phonebookApp?retryWrites=true&w=majority`
-
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-    content: String,
-    date: Date,
-    important: Boolean,
-})
-
-const Note = mongoose.model('Note', noteSchema)
-/* end mongoose */
+const Person = require('./models/persons')
 
 app.use(cors())
 app.use(express.json())
@@ -134,7 +116,7 @@ app.use(unknownEndpoint)
 /*  */
 
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })

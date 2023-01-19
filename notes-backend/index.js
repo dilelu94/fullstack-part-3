@@ -58,18 +58,15 @@ app.get('/api/notes/:id', (request, response) => {
 app.put('/api/notes/:id', (request, response) => {
     const id = request.params.id
     const updatedNote = request.body
-    // Find the index of the note to update in the "database"
-    const index = notes.findIndex(note => note.id == id)
-    if (index === -1) {
-        // Return an error if the note cannot be found
-        return response.status(404).json({
-            error: 'Note not found'
-        });
-    }
-    // Update the note in the "database"
-    notes[index] = updatedNote
-    // Return the updated note
-    response.json(updatedNote)
+
+    Note.findByIdAndUpdate(id, updatedNote, { new: true }, (err, note) => {
+        if (err) {
+            return response.status(404).json({
+                error: 'Note not found'
+            })
+        }
+        response.json(note)
+    })
 })
 
 /* Deleting resources */
