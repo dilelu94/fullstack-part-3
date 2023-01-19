@@ -93,7 +93,7 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 /* end catch */
 
-/* error midleware */
+/* error handler midleware */
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
 
