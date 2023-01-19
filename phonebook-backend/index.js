@@ -36,9 +36,11 @@ app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
 
-/* persons string page */
+/* mongoose persons string page */
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(person => {
+        response.json(person)
+    })
 })
 
 /* /info */ /* el navegador te formatea la fecha gratis XDD */
@@ -80,11 +82,11 @@ const generateId = () => {
         return maxId + 1 */
 }
 
-/* Receiving data (aka post)*/
+/* Mongoose Receiving data (aka post)*/
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (!body.name || !body.number) {
+    if (!body.name === undefined) {
         return response.status(400).json({
             error: 'content missing or number missing'
         })
@@ -96,24 +98,23 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    const person = {
-        id: generateId(),
+    const person = new Person( {
         name: body.name,
         number: body.number,
-    }
+    })
 
-    persons = persons.concat(person)
-
-    response.json(person)
+    note.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
-/* middleware (catch request made to non-existent routes) */
+/* middleware (catch request made to savedPerson-existent routes) */
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
-/*  */
+/* end catch */
 
 
 const PORT = process.env.PORT
