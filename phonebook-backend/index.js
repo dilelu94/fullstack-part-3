@@ -29,17 +29,11 @@ app.get('/', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (body.name === undefined) {
+    if (!body.name) {
         return response.status(400).json({
-            error: 'content missing or number missing'
+            error: 'name missing'
         })
     }
-
-    /*     if (persons.some(p => p.name === body.name)) { //esto quizas no ande xd
-            return response.status(400).json({
-                error: 'name must be unique'
-            })
-        } */
 
     const person = new Person({
         name: body.name,
@@ -107,7 +101,6 @@ app.put('/api/persons/:id', (request, response, next) => {
         })
         .catch(error => next(error))
 })
-
 
 /* middleware (catch request made to savedPerson non-existent routes) */
 const unknownEndpoint = (request, response) => {
