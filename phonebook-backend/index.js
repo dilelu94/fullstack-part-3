@@ -69,15 +69,6 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-/* Generating id */
-const generateId = () => {
-    return Math.floor(Math.random() * (9999999999999 - 1 + 1)) + 1
-    /*     const maxId = persons.length > 0
-            ? Math.max(...persons.map(n => n.id))
-            : 0
-        return maxId + 1 */
-}
-
 /* Mongoose Receiving data (aka post)*/
 app.post('/api/persons', (request, response) => {
     const body = request.body
@@ -88,7 +79,7 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    if (persons.some(p => p.name === body.name)) {
+    if (persons.some(p => p.name === body.name)) { //esto quizas no ande xd
         return response.status(400).json({
             error: 'name must be unique'
         })
@@ -99,7 +90,7 @@ app.post('/api/persons', (request, response) => {
         number: body.number,
     })
 
-    note.save().then(savedPerson => {
+    person.save().then(savedPerson => {
         response.json(savedPerson)
     })
 })
