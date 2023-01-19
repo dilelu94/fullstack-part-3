@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
-const Person = require('./models/persons')
+const Person = require('./models/person')
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -92,8 +92,24 @@ app.get('/api/persons/:id', (request, response, next) => {
         })
 })
 
+/* Mongoose update */
+app.put('/api/persons/:id', (request, response, next) => {
+    const body = request.body
 
-/* middleware (catch request made to savedPerson-existent routes) */
+    const person = {
+        name: body.name,
+        number: body.number,
+    }
+
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(error => next(error))
+})
+
+
+/* middleware (catch request made to savedPerson non-existent routes) */
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
