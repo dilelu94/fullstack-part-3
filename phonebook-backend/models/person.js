@@ -20,7 +20,9 @@ mongoose.connect(url)
             required: true
         },
         number: {
-            type: String
+            type: String,
+            minLength: 8,
+            match: /^\d{2,3}-\d+$/
         }
     })    
 
