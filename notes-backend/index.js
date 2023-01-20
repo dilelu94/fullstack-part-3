@@ -10,7 +10,6 @@
 
 /* { name: 'John', age: 30 } object */
 /* {"name":"John","age":30} json, string */
-
 const express = require('express')
 const app = express()
 const cors = require('cors')

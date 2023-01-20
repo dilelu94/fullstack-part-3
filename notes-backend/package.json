@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ../../part2/notes/ && npm run build && cp -r build ../../part3/notes-backend",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "Leonel Luque",
   "license": "MIT",
@@ -21,6 +22,12 @@
     "mongoose": "^6.8.4"
   },
   "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
