@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 const express = require('express')
 const config = require('./utils/config')
 
