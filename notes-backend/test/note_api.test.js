@@ -96,6 +96,29 @@ beforeEach(async () => {
   await noteObject.save()
 })
 
+test('note without content is not added', async () => {
+  const newNote = {
+    important: true,
+  }
+
+  await api
+    .post('/api/notes')
+    .send(newNote)
+    .expect(400)
+
+  const response = await api.get('/api/notes')
+
+  expect(response.body).toHaveLength(initialNotes.length)
+})
+
+beforeEach(async () => {
+  await Note.deleteMany({})
+  let noteObject = new Note(initialNotes[0])
+  await noteObject.save()
+  noteObject = new Note(initialNotes[1])
+  await noteObject.save()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
