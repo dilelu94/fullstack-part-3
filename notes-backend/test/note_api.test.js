@@ -93,6 +93,25 @@ test('a specific note can be viewed', async () => {
   expect(resultNote.body).toEqual(processedNoteToView)
 })
 
+test('a note can be deleted', async () => {
+  const notesAtStart = await helper.notesInDb()
+  const noteToDelete = notesAtStart[0]
+
+  await api
+    .delete(`/api/notes/${noteToDelete.id}`)
+    .expect(204)
+
+  const notesAtEnd = await helper.notesInDb()
+
+  expect(notesAtEnd).toHaveLength(
+    helper.initialNotes.length - 1,
+  )
+
+  const contents = notesAtEnd.map((r) => r.content)
+
+  expect(contents).not.toContain(noteToDelete.content)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
